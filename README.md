@@ -199,4 +199,4 @@ AzrovaDash should now be live at:
 - **HTTP**: `http://dash.example.com`
 - **HTTPS**: `https://dash.example.com` (if enabled)
 
-If you have any suggestion or an issue, feel free to join my [Discord Server](https://discord.gg/qC9vEY8y25) and ask on the #support channel!
+If you have any suggestion or an issue, feel free to join my [Discord Server](https://discord.gg/qC9vEY8y25) and ask on the #support channel for support and #suggestions channel for suggestions <3
