@@ -1,0 +1,15 @@
+{
+  "limits": {
+    "memory": 1024,
+    "swap": 0,
+    "disk": 5120,
+    "io": 500,
+    "cpu": 100
+  },
+  "feature_limits": {
+    "databases": 0,
+    "allocations": 1,
+    "backups": 1,
+    "server_limit": 2
+  }
+}

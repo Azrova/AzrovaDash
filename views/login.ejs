@@ -1,0 +1,34 @@
+<%- include('partials/header', { pageTitle: 'Login', title: title }) %>
+
+<div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md mx-auto animate-fade-in">
+    <h1 class="text-2xl font-bold mb-6 text-center">Login to <%= title %></h1>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="bg-red-900 border border-red-700 text-red-100 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span class="block sm:inline"><%= error %></span>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-300 mb-1">Username or Email</label>
+                <input type="text" id="username" name="username" required
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                <input type="password" id="password" name="password" required
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out transform hover:scale-105 active:scale-95 relative"
+                    onclick="this.classList.add('pointer-events-none', 'opacity-75'); this.innerHTML='<span class=\'loading-dots\'>Logging in</span>';">
+                <span>Login</span>
+            </button>
+        </form>
+        <p class="mt-6 text-center text-sm text-gray-400">
+            Don't have an account? <a href="/register" class="text-blue-400 hover:underline">Register here</a>
+        </p>
+    </div>
+
+<%- include('partials/footer') %>

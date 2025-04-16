@@ -1,0 +1,145 @@
+<%- include('partials/dashboard_header', { pageTitle: 'Settings', title: title }) %>
+
+<h1 class="text-2xl font-semibold text-gray-100 mb-6">Account Settings</h1>
+
+<% if (typeof success !== 'undefined' && success) { %>
+    <div class="alert alert-success" role="alert">
+        <strong class="font-bold">Success:</strong>
+        <span class="block sm:inline"><%= success %></span>
+    </div>
+<% } %>
+<% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-error" role="alert">
+        <strong class="font-bold">Error:</strong>
+        <span class="block sm:inline"><%= error %></span>
+    </div>
+<% } %>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-white mb-4">Profile Information</h2>
+        <form action="/settings/profile" method="POST">
+            <div class="mb-4">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" value="<%= user.username %>" required class="form-input">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" value="<%= user.email %>" required class="form-input">
+            </div>
+             <div class="mb-4">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" name="lastName" value="<%= user.lastName || '' %>" required class="form-input">
+                 <p class="text-xs text-gray-500 mt-1">Note: First name uses username currently.</p>
+            </div>
+            <button type="submit"
+                    class="btn-primary w-full"
+                    onclick="this.classList.add('pointer-events-none', 'opacity-75'); this.innerHTML='<span class=\'loading-dots\'>Updating profile</span>';">
+                Update Profile
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-white mb-4">Change Password</h2>
+        <form action="/settings/password" method="POST">
+            <div class="mb-4">
+                <label for="currentPassword" class="form-label">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" required class="form-input">
+            </div>
+            <div class="mb-4">
+                <label for="newPassword" class="form-label">New Password</label>
+                <input type="password" id="newPassword" name="newPassword" required class="form-input"
+                       onkeyup="checkPasswordStrength(this.value)">
+                <div class="password-strength-meter">
+                    <div id="password-strength-bar"></div>
+                </div>
+                <p id="password-strength-text" class="password-hint"></p>
+            </div>
+            <div class="mb-6">
+                <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                <input type="password" id="confirmNewPassword" name="confirmNewPassword" required class="form-input"
+                       onkeyup="validatePasswordMatch()">
+            </div>
+            <button type="submit"
+                    class="btn-primary w-full bg-yellow-600 hover:bg-yellow-700 text-gray-900"
+                    onclick="this.classList.add('pointer-events-none', 'opacity-75'); this.innerHTML='<span class=\'loading-dots\'>Changing password</span>';">
+                Change Password
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-lg shadow-md md:col-span-2 border border-red-700">
+         <h2 class="text-xl font-semibold text-red-400 mb-4">Delete Account</h2>
+         <p class="text-gray-300 mb-4">Permanently delete your account and all associated data. This action cannot be undone. You must not own any servers to delete your account.</p>
+         <form action="/settings/delete" method="POST" onsubmit="return confirm('Are you absolutely sure you want to delete your account? This cannot be undone.');">
+             <button type="submit"
+                     class="btn-danger w-full"
+                     onclick="return confirm('Are you absolutely sure you want to delete your account? This cannot be undone.') && (this.classList.add('pointer-events-none', 'opacity-75'), this.innerHTML='<span class=\'loading-dots\'>Deleting account</span>', true);">
+                 Delete My Account
+             </button>
+         </form>
+    </div>
+
+</div>
+
+<script>
+function checkPasswordStrength(password) {
+    const strengthBar = document.getElementById('password-strength-bar');
+    const strengthText = document.getElementById('password-strength-text');
+    
+    strengthBar.className = '';
+    
+    if (password.length === 0) {
+        strengthText.textContent = '';
+        return;
+    }
+
+    let strength = 0;
+    const checks = {
+        'length': password.length >= 8,
+        'lowercase': /[a-z]/.test(password),
+        'uppercase': /[A-Z]/.test(password),
+        'numbers': /\d/.test(password),
+        'symbols': /[^A-Za-z0-9]/.test(password)
+    };
+
+    strength = Object.values(checks).filter(Boolean).length;
+
+    if (strength <= 2) {
+        strengthBar.className = 'strength-weak';
+        strengthText.textContent = 'Weak - Add numbers, symbols, and mixed case';
+    } else if (strength === 3) {
+        strengthBar.className = 'strength-fair';
+        strengthText.textContent = 'Fair - Add more character types';
+    } else if (strength === 4) {
+        strengthBar.className = 'strength-good';
+        strengthText.textContent = 'Good - Almost there!';
+    } else {
+        strengthBar.className = 'strength-strong';
+        strengthText.textContent = 'Strong password!';
+    }
+
+    const confirmNewPassword = document.getElementById('confirmNewPassword');
+    if (confirmNewPassword.value) {
+        validatePasswordMatch();
+    }
+}
+
+function validatePasswordMatch() {
+    const password = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmNewPassword');
+    const submitBtn = document.querySelector('button[type="submit"]');
+    
+    if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Passwords do not match");
+        submitBtn.disabled = true;
+    } else {
+        confirmPassword.setCustomValidity("");
+        submitBtn.disabled = false;
+    }
+}
+</script>
+
+<%- include('partials/footer') %>

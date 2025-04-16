@@ -1,0 +1,32 @@
+<%- include('partials/dashboard_header', { pageTitle: 'Links', title: title }) %>
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold text-gray-100">Links</h1>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <% if (typeof links !== 'undefined' && links.length > 0) { %>
+            <% links.forEach(link => { %>
+                <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer" class="link-card block p-6 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 transition duration-150 ease-in-out">
+                    <div class="flex items-center space-x-4">
+                        <% if (link.icon) { %>
+                            <div class="icon-container bg-indigo-600">
+                                <i class="<%= link.icon %> text-white w-6 h-6 flex items-center justify-center"></i>
+                            </div>
+                        <% } %>
+                        <div>
+                            <h3 class="text-lg font-semibold text-white"><%= link.name %></h3>
+                            <p class="text-sm text-gray-400 truncate"><%= link.url %></p>
+                        </div>
+                    </div>
+                </a>
+            <% }); %>
+        <% } else { %>
+            <p class="text-gray-400 col-span-full">No links have been configured.</p>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="text-red-500 col-span-full"><%= error %></p>
+        <% } %>
+    </div>
+
+<%- include('partials/footer') %>

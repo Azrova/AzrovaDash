@@ -1,0 +1,108 @@
+<%- include('partials/header', { pageTitle: 'Register', title: title }) %>
+
+<div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md mx-auto animate-fade-in">
+    <h1 class="text-2xl font-bold mb-6 text-center">Register for <%= title %></h1>
+        <% if (error) { %>
+            <div class="alert alert-error" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span class="block sm:inline"><%= error %></span>
+            </div>
+        <% } %>
+
+        <form action="/register" method="POST">
+            <div class="mb-4">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" required class="form-input">
+            </div>
+            <div class="mb-4">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required class="form-input">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" required class="form-input">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" required class="form-input" 
+                       onkeyup="checkPasswordStrength(this.value)">
+                <div class="password-strength-meter">
+                    <div id="password-strength-bar"></div>
+                </div>
+                <p id="password-strength-text" class="password-hint"></p>
+            </div>
+            <div class="mb-6">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required class="form-input"
+                       onkeyup="validatePasswordMatch()">
+            </div>
+            <button type="submit"
+                    class="btn-primary w-full bg-green-600 hover:bg-green-700"
+                    onclick="this.classList.add('pointer-events-none', 'opacity-75'); this.innerHTML='<span class=\'loading-dots\'>Creating account</span>';">
+                Register
+            </button>
+        </form>
+        <p class="mt-6 text-center text-sm text-gray-400">
+            Already have an account? <a href="/login" class="text-blue-400 hover:underline">Login here</a>
+        </p>
+    </div>
+
+<script>
+function checkPasswordStrength(password) {
+    const strengthBar = document.getElementById('password-strength-bar');
+    const strengthText = document.getElementById('password-strength-text');
+    
+    strengthBar.className = '';
+    
+    if (password.length === 0) {
+        strengthText.textContent = '';
+        return;
+    }
+
+    let strength = 0;
+    const checks = {
+        'length': password.length >= 8,
+        'lowercase': /[a-z]/.test(password),
+        'uppercase': /[A-Z]/.test(password),
+        'numbers': /\d/.test(password),
+        'symbols': /[^A-Za-z0-9]/.test(password)
+    };
+
+    strength = Object.values(checks).filter(Boolean).length;
+
+    if (strength <= 2) {
+        strengthBar.className = 'strength-weak';
+        strengthText.textContent = 'Weak - Add numbers, symbols, and mixed case';
+    } else if (strength === 3) {
+        strengthBar.className = 'strength-fair';
+        strengthText.textContent = 'Fair - Add more character types';
+    } else if (strength === 4) {
+        strengthBar.className = 'strength-good';
+        strengthText.textContent = 'Good - Almost there!';
+    } else {
+        strengthBar.className = 'strength-strong';
+        strengthText.textContent = 'Strong password!';
+    }
+
+    const confirmPassword = document.getElementById('confirmPassword');
+    if (confirmPassword.value) {
+        validatePasswordMatch();
+    }
+}
+
+function validatePasswordMatch() {
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const submitBtn = document.querySelector('button[type="submit"]');
+    
+    if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Passwords do not match");
+        submitBtn.disabled = true;
+    } else {
+        confirmPassword.setCustomValidity("");
+        submitBtn.disabled = false;
+    }
+}
+</script>
+
+<%- include('partials/footer') %>

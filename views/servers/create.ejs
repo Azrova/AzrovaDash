@@ -1,0 +1,133 @@
+<%- include('../partials/dashboard_header', { pageTitle: 'Create Server', title: title }) %>
+
+<h1 class="text-2xl font-semibold text-gray-100 mb-6">Create New Server</h1>
+
+<% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-error" role="alert">
+        <strong class="font-bold">Error:</strong>
+        <span class="block sm:inline"><%= error %></span>
+    </div>
+<% } %>
+
+<div class="bg-gray-800 p-6 rounded-lg shadow-md">
+    <form action="/servers/create" method="POST">
+        <div class="mb-4">
+            <label for="serverName" class="form-label">Server Name</label>
+            <input type="text" id="serverName" name="serverName" required class="form-input" placeholder="My Awesome Server">
+        </div>
+
+        <div class="mb-6">
+            <label for="serverDescription" class="form-label">Description (Optional)</label>
+            <textarea id="serverDescription" name="serverDescription" rows="3" class="form-input" placeholder="A brief description of the server..."></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="nodeId" class="form-label">Node Location</label>
+                <select id="nodeId" name="nodeId" required class="form-input">
+                    <% nodes.forEach(node => { %>
+                        <option value="<%= node.id %>"><%= node.name %></option>
+                    <% }); %>
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Select the node where the server will be hosted.</p>
+            </div>
+            <div>
+                <label for="eggId" class="form-label">Server Type (Egg)</label>
+                <select id="eggId" name="eggId" required class="form-input">
+                    <% eggs.forEach(egg => { %>
+                        <option value="<%= egg.egg_id %>"><%= egg.name %></option>
+                    <% }); %>
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Select the type of server software.</p>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <div class="p-4 bg-gray-700 rounded-md border border-gray-600">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-semibold text-gray-200">Resource Limits</h4>
+                    <button type="button" 
+                            onclick="toggleResourceOverrides()"
+                            class="text-xs px-2 py-1 rounded bg-gray-600 hover:bg-gray-500 transition-colors text-gray-200"
+                            id="toggleResourcesBtn">
+                        Customize Resources
+                    </button>
+                </div>
+                <div id="defaultLimits">
+                    <p class="text-xs text-gray-400">
+                        Memory: <span class="font-medium text-gray-200"><%= defaultLimits.memory %> MB</span> |
+                        Disk: <span class="font-medium text-gray-200"><%= defaultLimits.disk %> MB</span> |
+                        CPU: <span class="font-medium text-gray-200"><%= defaultLimits.cpu %>%</span>
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Backups: <span class="font-medium text-gray-200"><%= defaultFeatures.backups %></span> |
+                        Databases: <span class="font-medium text-gray-200"><%= defaultFeatures.databases %></span> |
+                        Allocations: <span class="font-medium text-gray-200"><%= defaultFeatures.allocations %></span>
+                    </p>
+                </div>
+
+                <div id="resourceOverrides" class="hidden mt-4 border-t border-gray-600 pt-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="memory" class="block text-sm font-medium text-gray-300">Memory (MB)</label>
+                            <input type="number" id="memory" name="memory" class="form-input mt-1"
+                                   value="<%= defaultLimits.memory %>" min="256">
+                        </div>
+                        <div>
+                            <label for="disk" class="block text-sm font-medium text-gray-300">Disk (MB)</label>
+                            <input type="number" id="disk" name="disk" class="form-input mt-1"
+                                   value="<%= defaultLimits.disk %>" min="1024">
+                        </div>
+                        <div>
+                            <label for="cpu" class="block text-sm font-medium text-gray-300">CPU (%)</label>
+                            <input type="number" id="cpu" name="cpu" class="form-input mt-1"
+                                    value="<%= defaultLimits.cpu %>" min="50" max="400">
+                        </div>
+                        <div>
+                            <label for="backups" class="block text-sm font-medium text-gray-300">Backups</label>
+                            <input type="number" id="backups" name="backups" class="form-input mt-1"
+                                   value="<%= defaultFeatures.backups %>" min="0">
+                        </div>
+                        <div>
+                            <label for="databases" class="block text-sm font-medium text-gray-300">Databases</label>
+                            <input type="number" id="databases" name="databases" class="form-input mt-1"
+                                   value="<%= defaultFeatures.databases %>" min="0">
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Custom resource limits may affect server performance and stability.</p>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit"
+                class="btn-primary w-full bg-green-600 hover:bg-green-700"
+                onclick="this.classList.add('pointer-events-none', 'opacity-75'); this.innerHTML='<span class=\'loading-dots\'>Creating server</span>';">
+            Create Server
+        </button>
+    </form>
+</div>
+
+<script>
+function toggleResourceOverrides() {
+    const overrides = document.getElementById('resourceOverrides');
+    const defaultLimits = document.getElementById('defaultLimits');
+    const toggleBtn = document.getElementById('toggleResourcesBtn');
+    const isHidden = overrides.classList.contains('hidden');
+
+    if (isHidden) {
+        overrides.classList.remove('hidden');
+        defaultLimits.classList.add('hidden');
+        toggleBtn.textContent = 'Use Default Resources';
+        toggleBtn.classList.add('bg-blue-600', 'hover:bg-blue-500');
+        toggleBtn.classList.remove('bg-gray-600', 'hover:bg-gray-500');
+    } else {
+        overrides.classList.add('hidden');
+        defaultLimits.classList.remove('hidden');
+        toggleBtn.textContent = 'Customize Resources';
+        toggleBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500');
+        toggleBtn.classList.add('bg-gray-600', 'hover:bg-gray-500');
+    }
+}
+</script>
+
+<%- include('../partials/footer') %>

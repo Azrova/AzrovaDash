@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %> - <%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+</head>
+<body class="bg-gray-900 text-gray-100 flex">
+
+    <aside class="w-64 bg-gray-800 shadow-md h-screen sticky top-0 flex flex-col">
+        <div class="p-6 text-center border-b border-gray-700">
+            <a href="/dashboard" class="text-2xl font-bold text-white hover:opacity-80 transition-opacity"><%= title %></a>
+        </div>
+        <div class="p-4 border-b border-gray-700">
+            <a href="/profile" class="flex items-center space-x-3 <%= pageTitle === 'Profile' ? 'bg-gray-700' : '' %> p-2 rounded-lg hover:bg-gray-700 transition-colors">
+                <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-lg font-semibold">
+                    <%= user.username.charAt(0).toUpperCase() %>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-100 truncate">
+                        <%= user.username %>
+                    </p>
+                    <p class="text-xs text-gray-400 truncate">
+                        <%= user.email %>
+                    </p>
+                </div>
+            </a>
+        </div>
+        <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+            <a href="/dashboard" class="flex items-center px-4 py-2.5 <%= pageTitle === 'Dashboard' ? 'text-gray-100 bg-gray-700' : 'text-gray-300 hover:bg-gray-700' %> rounded-lg hover:text-gray-100 transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                </svg>
+                Dashboard
+            </a>
+            <a href="/servers" class="flex items-center px-4 py-2.5 <%= pageTitle === 'My Servers' ? 'text-gray-100 bg-gray-700' : 'text-gray-300 hover:bg-gray-700' %> rounded-lg hover:text-gray-100 transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                </svg>
+                Servers
+            </a>
+            <a href="/users" class="flex items-center px-4 py-2.5 <%= pageTitle === 'Users' ? 'text-gray-100 bg-gray-700' : 'text-gray-300 hover:bg-gray-700' %> rounded-lg hover:text-gray-100 transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                </svg>
+                Users
+            </a>
+            <a href="/credentials" class="flex items-center px-4 py-2.5 <%= pageTitle === 'My Credentials' ? 'text-gray-100 bg-gray-700' : 'text-gray-300 hover:bg-gray-700' %> rounded-lg hover:text-gray-100 transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+                </svg>
+                Credentials
+            </a>
+
+            <a href="/settings" class="flex items-center px-4 py-2.5 <%= pageTitle === 'Settings' ? 'text-gray-100 bg-gray-700' : 'text-gray-300 hover:bg-gray-700' %> rounded-lg hover:text-gray-100 transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.43.992a6.759 6.759 0 0 1 0 1.905c.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.6 6.6 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.759 6.759 0 0 1 0-1.905c-.007-.378-.137-.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+                Settings
+            </a>
+            <a href="/links" class="flex items-center px-4 py-2.5 <%= pageTitle === 'Links' ? 'text-gray-100 bg-gray-700' : 'text-gray-300 hover:bg-gray-700' %> rounded-lg hover:text-gray-100 transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                </svg>
+                Links
+            </a>
+        </nav>
+        <div class="p-4 border-t border-gray-700 mt-auto">
+            <a href="/logout" class="flex items-center px-4 py-2.5 text-gray-300 rounded-lg hover:bg-red-800 hover:text-red-100 transition-colors duration-150 group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3 text-gray-400 group-hover:text-red-200 transition-colors duration-150">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                Logout
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900 p-6">

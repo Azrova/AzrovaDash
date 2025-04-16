@@ -1,0 +1,19 @@
+{
+  "links": [
+    {
+      "name": "Discord",
+      "url": "https://discord.gg/example",
+      "icon": "fab fa-discord" 
+    },
+    {
+      "name": "Status Page",
+      "url": "https://status.example.com",
+      "icon": "fas fa-heartbeat" 
+    },
+    {
+      "name": "Website",
+      "url": "https://example.com",
+      "icon": "fas fa-globe" 
+    }
+  ]
+}
