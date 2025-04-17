@@ -1,6 +1,6 @@
 {
   "name": "arovadash",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AzrovaDash is a sleek, next-gen client area for the Pterodactyl Panel, built with TypeScript and powered by the latest components. Designed for speed, modern aesthetics, and full customization, AzrovaDash redefines how users interact with their game servers.",
   "author": "Nethuka",
   "license": "Apache-2.0",
