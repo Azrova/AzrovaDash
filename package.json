@@ -2,17 +2,18 @@
   "name": "arovadash",
   "version": "1.0.0",
   "description": "AzrovaDash is a sleek, next-gen client area for the Pterodactyl Panel, built with TypeScript and powered by the latest components. Designed for speed, modern aesthetics, and full customization, AzrovaDash redefines how users interact with their game servers.",
-  "module": "index.ts",
   "author": "Nethuka",
   "license": "Apache-2.0",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/connect-sqlite3": "^0.9.5",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
-    "tailwindcss": "^3.0.0"
+    "tailwindcss": "^3.0.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^22.14.1",
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -22,17 +23,19 @@
     "start": "bun run index.ts"
   },
   "dependencies": {
-    "@types/bcryptjs": "^3.0.0",
-    "@types/express": "^5.0.1",
-    "@types/express-session": "^1.18.1",
-    "@types/sqlite3": "^5.1.0",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
     "axios": "^1.8.4",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
-    "connect-sqlite3": "^0.9.15",
-    "dotenv": "^16.5.0",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "sqlite3": "^5.1.7"
-  }
+    "express": "^5.0.1",
+    "express-session": "^1.18.0",
+    "mongodb": "^6.7.0",
+    "node-fetch": "^3.3.2",
+    "ts-node": "^10.9.2"
+  },
+  "module": "index.ts"
 }
