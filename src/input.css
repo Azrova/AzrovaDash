@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    /* Loading dots animation */
+    .loading-dots::after {
+        content: '...';
+        display: inline-block;
+        animation: loading-dots 1.5s infinite;
+        width: 1.5em;
+        text-align: left;
+    }
+
+    @keyframes loading-dots {
+        0% { content: '.'; }
+        33% { content: '..'; }
+        66% { content: '...'; }
+        100% { content: '.'; }
+    }
+
+    /* Card hover effect */
+    .stat-card {
+        @apply bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl shadow-lg 
+               transition-all duration-300 hover:shadow-xl hover:scale-[1.02] 
+               hover:from-gray-700 hover:to-gray-800;
+    }
+
+    /* Icon container */
+    .icon-container {
+        @apply p-3 rounded-full bg-opacity-75 transition-colors duration-300;
+    }
+
+    /* Button hover effects */
+    .btn-primary {
+        @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md 
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 
+               transition duration-150 ease-in-out transform hover:scale-105 active:scale-95;
+    }
+
+    .btn-danger {
+        @apply bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md 
+               focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 
+               transition duration-150 ease-in-out transform hover:scale-105 active:scale-95;
+    }
+
+    /* Input field styling */
+    .form-input {
+        @apply w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white 
+               focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200;
+    }
+
+    /* Form label styling */
+    .form-label {
+        @apply block text-sm font-medium text-gray-300 mb-1;
+    }
+
+    /* Alert styles */
+    .alert {
+        @apply px-4 py-3 rounded relative mb-4 border;
+    }
+
+    .alert-error {
+        @apply bg-red-900 border-red-700 text-red-100;
+    }
+
+    .alert-success {
+        @apply bg-green-900 border-green-700 text-green-100;
+    }
+
+    /* Password strength indicator */
+    .password-strength-meter {
+        @apply h-1 mt-1 rounded-full bg-gray-700 overflow-hidden transition-all duration-300;
+    }
+
+    .password-strength-meter div {
+        @apply h-full transition-all duration-300;
+    }
+
+    .strength-weak {
+        @apply w-1/4 bg-red-500;
+    }
+
+    .strength-fair {
+        @apply w-2/4 bg-yellow-500;
+    }
+
+    .strength-good {
+        @apply w-3/4 bg-blue-500;
+    }
+
+    .strength-strong {
+        @apply w-full bg-green-500;
+    }
+
+    .password-hint {
+        @apply text-xs text-gray-400 mt-1;
+    }
+}
