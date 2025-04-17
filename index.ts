@@ -3,8 +3,8 @@ import type { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import session, { Store } from 'express-session';
-import connectSqlite3 from 'connect-sqlite3';
-import db from './src/db';
+import MongoStore from 'connect-mongo';
+import { connectDB } from './src/db';
 import authRouter from './src/endpoints/auth';
 import usersRouter from './src/endpoints/users';
 import settingsRouter from './src/endpoints/settings';
@@ -33,18 +33,21 @@ const port = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-const SQLiteStore = connectSqlite3(session);
-const sessionSecret = process.env.SESSION_SECRET || 'a-default-secret-key-change-me'; // Change in production!
+const mongoUri = process.env.MONGODB_URI;
+if (!mongoUri) {
+    throw new Error('MONGODB_URI environment variable is not set for session store.');
+}
+
+const sessionSecret = process.env.SESSION_SECRET || 'a-default-secret-key-change-me';
 if (sessionSecret === 'a-default-secret-key-change-me') {
     console.warn("WARNING: Using default session secret. Set SESSION_SECRET in .env for production!");
 }
 
 app.use(session({
-    store: new SQLiteStore({
-        db: 'database.sqlite',
-        dir: './db',           // Directory containing the db file
-        table: 'sessions'
-    }) as Store,
+    store: MongoStore.create({
+        mongoUrl: mongoUri,
+        collectionName: 'sessions' 
+    }),
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
@@ -88,10 +91,19 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     });
 });
 
+async function startServer() {
+    try {
+        await connectDB(); 
+        app.listen(port, () => {
+            console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+        });
+    } catch (error) {
+        console.error("Failed to start the server:", error);
+        process.exit(1);
+    }
+}
 
-// Start the server
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+startServer();
+
 // ULTRAKILL is the best game ever made.
 // Made with ❤️ by Nethuka
