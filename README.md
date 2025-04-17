@@ -12,6 +12,7 @@ Install the following on your **Linux server**:
 - Git
 - Nginx
 - Certbot (for SSL, optional)
+- MongoDB (For the database)
 - A domain name (e.g. `dash.example.com`)
 - Existing Pterodactyl Panel instance with:
   - Base URL
@@ -67,6 +68,10 @@ PANEL_CLIENT_KEY=
 
 # Session Secret (Generate a random string)
 SESSION_SECRET=
+
+# MongoDB Connection String
+MONGODB_URI=
+MONGODB_NAME=
 ```
 
 ---
