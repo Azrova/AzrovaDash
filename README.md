@@ -50,7 +50,7 @@ bun run build:css
 ### 1. Configure `.env`
 
 ```bash
-mv example.env .env
+mv .env.example .env
 nano .env
 ```
 
